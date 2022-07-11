@@ -1,13 +1,18 @@
 const http = require('http')
 const msg = require('./message.js')
+const {loadUser} = require('./user_model')
 
 const host = "localhost"
 const PORT = process.env.PORT || 5000
 
-const server = http.createServer((req,res)=>{
-    res.writeHead(200,{"Content-Type":"text/pain"})
-    res.write(`${msg.message} I like a cat`)
+const server = http.createServer((req,res) => {
+    const jsonContent = JSON.stringify(loadUser())
+
+    res.writeHead(200, { 'Content-Type' : 'text/plain' })
+    res.write(`${jsonContent}`)
     res.end()
-}).listen(PORT, ()=>{
-    console.log('Start Sever runing at http//:${host}:{PORT}')
+})
+
+server.listen(PORT, ()=>{
+    console.log(`Start server runnig at http://${host}:${PORT}`)
 })
